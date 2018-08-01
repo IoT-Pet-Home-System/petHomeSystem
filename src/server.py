@@ -4,7 +4,7 @@ from DoorOperation import DoorOperation
 from FeedOperation import FeedOperation
 
 
-class MobileSystem:
+class PetHome:
     def __init__(self):
         self.T = Translator()
         self.Push = Push()
@@ -60,7 +60,7 @@ class MobileSystem:
             list.append(atom)
         return list
 
-    def runMobile(self):
+    def runPetHome(self):
         try:
             print("프로그램 시작합니다.")
             self.Push.PushTh.start()
@@ -106,5 +106,5 @@ class MobileSystem:
 
 
 if __name__ =="__main__":
-    MS=MobileSystem()
-    MS.runMobile()
+    pethome=PetHome()
+    pethome.runPetHome()
