@@ -1,5 +1,4 @@
 - [Go To Main-Repository](https://github.com/kuj0210/IoT-Pet-Home-System)
-
 # <img src="https://github.com/kuj0210/IoT-Pet-Home-System/blob/master/.README/RaspberryPi_Logo.jpg?raw=true" width="64">Raspberry Pi Setting
 
 ## **Install Rasbian**
