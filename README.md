@@ -1,3 +1,5 @@
+- [Go To Main-Repository](https://github.com/kuj0210/IoT-Pet-Home-System)
+
 # <img src="https://github.com/kuj0210/IoT-Pet-Home-System/blob/master/.README/RaspberryPi_Logo.jpg?raw=true" width="64">Raspberry Pi Setting
 
 ## **Install Rasbian**
@@ -199,11 +201,24 @@ def pushImage(self, user, path)
 
    The class that drives the door motor
 
+## CONTRIBUTING
 
+Contributing on our repository is very thanks, and welcome!<br>
+If you want to contact us, please send below mail.<br>
+
+- KeonHeeLee ([chattingBotServer](https://github.com/IoT-Pet-Home-System/chattingBotServer))
+  - beta1360@naver.com
+  - beta1360sh@gmail.com
+  
+- kuj0210 ([All management](https://github.com/kuj0210/IoT-Pet-Home-System))
+  - on_11@naver.com
+  
+- seok8418 ([petHomeSystem](https://github.com/IoT-Pet-Home-System/petHomeSystem))
+  - seok8418@nate.com
 
  ## **LICENSE**
  
- IoT-Pet-Home-System's pet-home is licensed under [BSD 3-Clause License](https://github.com/kuj0210/IoT-Pet-Home-System/blob/master/PetHome/LICENSE).
+ IoT-Pet-Home-System's pet-home system is licensed under [BSD 3-Clause License](https://github.com/kuj0210/IoT-Pet-Home-System/blob/master/PetHome/LICENSE).
  
  ```
 Copyright (c) 2018-present, kuj0210, KeonHeeLee, seok8418
