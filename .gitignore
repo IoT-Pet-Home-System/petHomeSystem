@@ -1,0 +1,6 @@
+*.pyc
+.idea/*
+__pycahe__/*
+.venv/*
+.venv
+venv
