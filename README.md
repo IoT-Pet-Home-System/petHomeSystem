@@ -50,11 +50,18 @@ sudo apt-get upgrade
 - Red wired: connects to 3v3 or 5v pin(one of pin 1, 2, 4, 17)
 - Brown wired: connects to GND pin(one of pin 6, 9, 14, 20, 25, 30, 34, 39)
 
-## Clone this repository and Run
+## Clone this repository and Setting
 
 ```bash
 $ git clone https://github.com/IoT-Pet-Home-System/petHomeSystem
-$ cd src && sudo python3 server.py
+$ sudo chmod +0777 setting.sh
+$ ./setting.sh
+```
+
+## Run
+```bash
+$ cd src
+$ sudo python3 server.py
 ```
 
 ## CONTRIBUTING
