@@ -1,16 +1,19 @@
-import time
-from push import *
-from DoorOperation import DoorOperation
-from FeedOperation import FeedOperation
-
+import time, os
+from config import settings
+from sender.push import *
+from motor.DoorOperation import DoorOperation
+from motor.FeedOperation import FeedOperation
 
 class PetHome:
     def __init__(self):
         self.T = Translator()
         self.Push = Push()
-        self.CONFIG = "configPI.txt"
+        self.CONFIG = "config/configPI.txt"
         self.door = DoorOperation()
         self.feed = FeedOperation()
+        self.waiting = settings.WAIT_DELAY
+        self.feed_alarm = settings.FEED_ALARM / self.waiting
+        self.door_alarm = settings.DOOR_ALARM / self.waiting
         #시스템 정보
 
         #값 초기화
@@ -36,7 +39,7 @@ class PetHome:
                 Translator.SERIAL=f.readline()
                 return True
         except:
-            print("파일 입출력 에러")
+            print("FileIO Error")
             return False
 
     def bootUp(self):
@@ -60,49 +63,68 @@ class PetHome:
             list.append(atom)
         return list
 
+    def sendOperationPush(self):
+        push_list = []
+        os.environ["PETHOME_FEED_COUNT"] = str(int(os.environ["PETHOME_FEED_COUNT"]) + 1)
+        os.environ["PETHOME_DOOR_COUNT"] = str(int(os.environ["PETHOME_DOOR_COUNT"]) + 1)
+        feed_cnt = int(os.environ["PETHOME_FEED_COUNT"])/60
+        door_cnt = int(os.environ["PETHOME_DOOR_COUNT"])/60
+
+        if int(feed_cnt) >= self.feed_alarm and feed_cnt%self.feed_alarm == 0:
+            feedPush = {"operation":"feed","time": int(feed_cnt)}
+            push_list.append(feedPush)
+
+        if int(door_cnt) >= self.door_alarm and door_cnt%self.door_alarm == 0:
+            doorPush = {"operation":"door","time": int(door_cnt)}
+            push_list.append(doorPush)
+
+        if len(push_list) > 0:
+            self.T.sendOpPush(Translator.SERIAL, push_list)
+
+
     def runPetHome(self):
         try:
-            print("프로그램 시작합니다.")
+            print("IoT-Pet-Home-System start.")
             self.Push.PushTh.start()
         except:
-            print("시작 에러")
+            print("System Error] Don\'t start this system.")
             return
 
         while (True):
             try:
-                list = self.getRequest(1)
+                list = self.getRequest(self.waiting)
+                self.sendOperationPush()
+
                 if list == False:
                     continue
+
                 else:
                     print(list)
                     str =""
                     while(len(list)>0):
                         item = list.pop(0)
                         user = item.pop(0)
-                        print(user+"가")
-                        print(item)
+
                         if 'UPDATE' in item:
-                            print("유저변동발생!")
+                            print("User information is changed.")
                             self.bootUp()
                             continue
 
                         if 'open'in item:
-                            print("문요청")
                             self.door.start()
-                            str+="문요청완료\n"
+                            str+="문열어주기 작업을 완료하였습니다!\n"
 
                         if 'feed'in item:
-                            print("밥요청")
                             self.feed.run()
-                            str+="밥요청완료\n"
+                            str+="먹이주기 작업을 완료하였습니다!\n"
+
                         if 'camera' in item:
-                            print("카메라요청")
-                            self.Push.observerList[Push.VI].insertRQ(user, "비디오스레드::사진기능완료")  # 사진기능 요청
+                            self.Push.observerList[Push.VI].insertRQ(user, "사진 기능을 완료하였습니다.")  # 사진기능 요청
                         print(str)
                         self.Push.insertMSG(user, str) #일반 메세지 푸쉬 발생법
 
             except:
-                print("runMobile 리퀘스트 전송 에러")
+                print("\"Send Request\" error.")
 
 
 if __name__ =="__main__":
