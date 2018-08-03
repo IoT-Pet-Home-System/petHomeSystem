@@ -2,8 +2,8 @@
 
 ## Module FeedOperation
 
-   The class that drives the feed motor
+- **description**: The class that drives the feed motor
 
 ## Module DoorOpeartion
 
-   The class that drives the door motor
+- **description**: The class that drives the door motor
